@@ -15,7 +15,6 @@ export default {
     }
   },
   mounted() {
-    this.getDataAndRenderChart();
     this.getdu();
   },
   methods: {
@@ -38,7 +37,7 @@ export default {
             // 绘制图表
             myChart.setOption({
               title: {
-                text: '展示问题从提出到解决的时间间隔分布,时间间隔分布为'+this.duration_value
+                text: '展示问题从提出到解决的时间间隔分布,时间间隔分布为'+this.duration_value +'min'
               },
               tooltip: {},
               xAxis: {
@@ -96,7 +95,7 @@ export default {
       }).then(res => {
         this.duration_value = res.data
         console.log(this.duration_value)
-
+        this.getDataAndRenderChart()
       })
     }
 

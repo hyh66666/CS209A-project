@@ -1,5 +1,4 @@
 package com.example.demo.controller;
-
 import com.example.demo.enity.Answer;
 import com.example.demo.enity.Comment;
 import com.example.demo.enity.Owner;
@@ -21,10 +20,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.zip.GZIPInputStream;
-
 @RestController
 public class OwnerController {
-
     @Autowired
     private OwnerMapper ownerMapper;
     @Autowired
@@ -33,7 +30,6 @@ public class OwnerController {
     private AnswerMapper answerMapper;
     @Autowired
     private CommentMapper commentMapper;
-
     @PostMapping("/addData")
     public String addData() throws IOException, InterruptedException {
         for (int i = 1; i < 7; i++) {
@@ -101,8 +97,6 @@ public class OwnerController {
 
         return "finish!";
     }
-
-
     public static String getData(String apiUrl) throws IOException, InterruptedException {
 //        Thread.sleep(500);
         Thread.sleep(100);
@@ -127,7 +121,6 @@ public class OwnerController {
         reader.close();
         return result;
     }
-
     public static String addOwner(JsonNode ownerNode, OwnerMapper ownerMapper){
         JsonNode accountIdNode = ownerNode.get("account_id");
         JsonNode reputationNode = ownerNode.get("reputation");
@@ -170,7 +163,6 @@ public class OwnerController {
         }
         return user_id;
     }
-
     public static String addQuestion(JsonNode itemNode, QuestionMapper questionMapper, String user_id) {
         JsonNode tagsNode = itemNode.get("tags");
         JsonNode isAnsweredNode = itemNode.get("is_answered");
@@ -214,7 +206,6 @@ public class OwnerController {
         }
         return null;
     }
-
     public static void addAnswer(JsonNode answer_itemNode, AnswerMapper answerMapper, String answer_user_id){
         JsonNode answer_is_acceptedNode = answer_itemNode.get("is_accepted");
         JsonNode answer_scoreNode = answer_itemNode.get("score");
@@ -236,7 +227,6 @@ public class OwnerController {
                 answer_creation_date, answer_answer_id, answer_question_id, answer_content_licensed, answer_user_id);
         answerMapper.insert(answer);
     }
-
     public static void addComment(JsonNode comment_itemNode, CommentMapper commentMapper, String comment_user_id){
         JsonNode comment_editedNode = comment_itemNode.get("edited");
         JsonNode comment_scoreNode = comment_itemNode.get("score");
