@@ -1,5 +1,6 @@
 package com.example.demo.enity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,35 +30,35 @@ public class Owner {
         this.displayName = displayName;
         this.link = link;
     }
-
+    @JsonProperty("id")
     public Integer getId() {
         return id;
     }
-
+    @JsonProperty("accountId")
     public String getAccountId() {
         return accountId;
     }
-
+    @JsonProperty("reputation")
     public String getReputation() {
         return reputation;
     }
-
+    @JsonProperty("userId")
     public String getUserId() {
         return userId;
     }
-
+    @JsonProperty("userType")
     public String getUserType() {
         return userType;
     }
-
+    @JsonProperty("profileImage")
     public String getProfileImage() {
         return profileImage;
     }
-
+    @JsonProperty("displayName")
     public String getDisplayName() {
         return displayName;
     }
-
+    @JsonProperty("link")
     public String getLink() {
         return link;
     }

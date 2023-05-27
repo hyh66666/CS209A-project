@@ -24,9 +24,10 @@ public class AnswerController {
         int total = questionList.size();
         int count = (answerMapper.findAnswerAccepted()).size();
         float per = (float) (count / (total * 1.0));
-        result.put("count", String.valueOf(count));
-        result.put("total", String.valueOf(total));
-        result.put("percentage", String.valueOf(per));
+//        result.put("展示有 accepted answer 的问题", String.valueOf(count));
+//        result.put("total", String.valueOf(total));
+        result.put("有 accepted answer 的问题", String.valueOf(per));
+        result.put("没有 accepted answer 的问题", String.valueOf(1-per));
         return result;
     }
 
@@ -52,18 +53,40 @@ public class AnswerController {
         for (int i = 0; i < 10; i++) {
             String duration = i * duration_value + "min-" + (i+1) * duration_value + "min";
             List<String> list = new ArrayList<>();
-            result.put(duration, list);
-            final_result.put(duration, 0);
+            result.put(""+i, list);
+            final_result.put(""+i, 0);
             for (Map.Entry<String, Double> entry : map.entrySet()) {
                 if (entry.getValue() > i * duration_value && entry.getValue() < (i+1) * duration_value) {
-                    result.get(duration).add(entry.getKey());
-                    int value = final_result.get(duration);
+                    result.get(""+i).add(entry.getKey());
+                    int value = final_result.get(""+i);
                     value += 1;
-                    final_result.put(duration, value);
+                    final_result.put(""+i, value);
                 }
             }
         }
         return final_result;
+    }
+
+    @RequestMapping("/answerAccepted2ok")
+    public Double answer_accepted2ok() {
+        Map<String, Double> map = new HashMap<>();
+        List<Answer> answerList = answerMapper.findAnswerAccepted();
+        double max_time = 0;
+        for (Answer answer : answerList) {
+            question question = questionMapper.findQuestionByQuestionId(answer.getQuestionId());
+            long epochTime = Long.parseLong(answer.getLastActivityDate());
+            long epochTime1 = Long.parseLong(question.getCreationDate());
+            double time = (epochTime - epochTime1) / 60.0;
+            map.put(question.getQuestionId(), time);
+            if (time > max_time) {
+                max_time = time;
+            }
+        }
+        max_time = Math.ceil(max_time);
+        Map<String, List<String>> result = new HashMap<>();
+        Map<String, Integer> final_result = new HashMap<>();
+        double duration_value =  (max_time / 10);
+        return duration_value;
     }
 
     @RequestMapping("/answerAccepted3")
@@ -95,9 +118,10 @@ public class AnswerController {
             }
         }
         float per = (float) (count / (total * 1.0));
-        result.put("count", String.valueOf(count));
-        result.put("total", String.valueOf(total));
-        result.put("percentage", String.valueOf(per));
+//        result.put("count", String.valueOf(count));
+//        result.put("total", String.valueOf(total));
+        result.put("含有 non-accepted answer 的 upvote 数高于 accepted answer 的问题", String.valueOf(per));
+        result.put("含有 non-accepted answer 的 upvote 数并不高于 accepted answer 的问题", String.valueOf(1-per));
         return result;
     }
 }

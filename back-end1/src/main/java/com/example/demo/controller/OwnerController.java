@@ -46,20 +46,17 @@ public class OwnerController {
             JsonNode itemsNode = jsonNode.get("items");
             if (itemsNode.isArray()) {
                 for (JsonNode itemNode : itemsNode) {
-
                     JsonNode ownerNode = itemNode.get("owner");
                     String user_id = addOwner(ownerNode, ownerMapper);
                     // user_id not exist
                     if (user_id == null) {
                         continue;
                     }
-
                     String question_id = addQuestion(itemNode, questionMapper, user_id);
                     // question already exist
                     if (question_id == null){
                         continue;
                     }
-
                     String apiURL = "https://api.stackexchange.com/2.3/questions/" + question_id +
                             "/answers?order=desc&sort=activity&site=stackoverflow";
                     String answer_json = OwnerController.getData(apiURL);

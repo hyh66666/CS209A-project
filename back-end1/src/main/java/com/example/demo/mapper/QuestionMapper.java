@@ -40,12 +40,13 @@ public interface QuestionMapper {
     public List<bag> Qyi3();
 
     @Select("  SELECT dis, COUNT(*) as ii\n" +
-            "    FROM (\n" +
-            "            SELECT unnest(string_to_array(translate(tags, '[]\"', ''), ',')) as dis\n" +
-            "    FROM question\n" +
-            "     ) as subquery\n" +
-            "    GROUP BY dis order by ii desc\n" +
-            "    limit 5;")
+            "                FROM (\n" +
+            "                        SELECT unnest(string_to_array(translate(tags, '[]\\\"', ''), ',')) as dis\n" +
+            "                FROM question\n" +
+            "                ) as subquery\n" +
+            "                GROUP BY dis order by ii desc\n" +
+            "                OFFSET 1\n" +
+            "                limit 10;")
     public List<bag> Qsan1();
 
     @Select("select tags ,sum(CAST(score AS numeric)) as iii from\n" +
@@ -95,26 +96,25 @@ public interface QuestionMapper {
     public List<bag> Qsi1();
 
     @Select("select differentUserCount, count(*) from\n" +
-            "    (SELECT AAA, COUNT(DISTINCT \"userId\")  AS differentUserCount\n" +
-            "     FROM (\n" +
-            "              SELECT \"questionId\" as AAA, \"userId\" FROM answer\n" +
-            "          ) AS combined\n" +
-            "     GROUP BY AAA\n" +
-            "     HAVING COUNT(DISTINCT \"userId\") > 1\n" +
-            "    ) as BBB\n" +
-            "GROUP BY differentUserCount\n" +
-            ";")
+            "                (SELECT AAA, COUNT(DISTINCT \"userId\")  AS differentUserCount\n" +
+            "    FROM (\n" +
+            "                         SELECT \"questionId\" as AAA, \"userId\" FROM answer\n" +
+            "         ) AS combined\n" +
+            "                GROUP BY AAA\n" +
+            "            HAVING COUNT(DISTINCT \"userId\") > 1  ) as BBB\n" +
+            "            GROUP BY differentUserCount\n" +
+            "            ORDER BY differentUserCount asc ;")
     public List<bag> Qsi2yi();
 
     @Select("select differentUserCount, count(*) from\n" +
-            "    (SELECT AAA, COUNT(DISTINCT \"userId\")  AS differentUserCount\n" +
-            "     FROM (\n" +
-            "              SELECT \"postId\" as AAA, \"userId\" FROM comment\n" +
-            "          ) AS combined\n" +
-            "     GROUP BY AAA\n" +
-            "     HAVING COUNT(DISTINCT \"userId\") > 1\n" +
-            "    ) as BBB\n" +
-            "GROUP BY differentUserCount;")
+            "                (SELECT AAA, COUNT(DISTINCT \"userId\")  AS differentUserCount\n" +
+            "    FROM (\n" +
+            "                         SELECT \"postId\" as AAA, \"userId\" FROM comment\n" +
+            "         ) AS combined\n" +
+            "                GROUP BY AAA\n" +
+            "            HAVING COUNT(DISTINCT \"userId\") > 1  ) as BBB\n" +
+            "            GROUP BY differentUserCount\n" +
+            "            ORDER BY differentUserCount asc ;")
     public List<bag> Qsi2er();
 
     @Select("SELECT AAA, COUNT(*) AS occurrenceCount\n" +
@@ -127,7 +127,7 @@ public interface QuestionMapper {
             "     ) AS combined\n" +
             "GROUP BY AAA\n" +
             "ORDER BY occurrenceCount DESC\n" +
-            "LIMIT 5;")
+            "LIMIT 6;")
     public List<bag> Qsi3();
 
 

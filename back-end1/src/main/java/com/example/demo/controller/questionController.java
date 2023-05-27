@@ -6,14 +6,13 @@ import com.example.demo.enity.question;
 import com.example.demo.mapper.OwnerMapper;
 import com.example.demo.mapper.QuestionMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 public class questionController {
@@ -28,10 +27,11 @@ public class questionController {
         List<question> questionList = questionMapper.Qyi1();
         int count = questionList.size();
         int total = (questionMapper.findAllQuestion()).size();
-        float per = (float) (count / (total * 1.0));
-        result.put("count", String.valueOf(count));
-        result.put("total", String.valueOf(total));
-        result.put("percentage", String.valueOf(per));
+        float per1 = (float) (count / (total * 1.0));
+        float per2 = 1 - per1;
+        result.put("没有答案的", String.valueOf(per1));
+        result.put("有答案的", String.valueOf(per2));
+
         return result;
     }
 
@@ -86,15 +86,15 @@ public class questionController {
         return questionMapper.Qsi2er();
     }
     @GetMapping ("/Qsi3")
-    public Map<Owner,String> Qssi3() {
+    @ResponseBody
+    public ResponseEntity<Map<String, Owner>> Qssi3() {
         List<bag> temp = questionMapper.Qsi3();
-        Map<Owner,String> re=new HashMap<>();
+        Map<String,Owner> re=new LinkedHashMap<>();
         for(int i = 0;i<temp.size();i++){
             Owner owner = ownerMapper.findOwnerByUserId(temp.get(i).getNumber());
-
-            re.put(owner,temp.get(i).getCount());
+            re.put(temp.get(i).getCount()+"-"+i,owner);
         }
-        return re;
+        return ResponseEntity.ok(re);
     }
 
 }
