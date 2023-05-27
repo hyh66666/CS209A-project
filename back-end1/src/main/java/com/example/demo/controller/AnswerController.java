@@ -24,8 +24,8 @@ public class AnswerController {
         int total = questionList.size();
         int count = (answerMapper.findAnswerAccepted()).size();
         float per = (float) (count / (total * 1.0));
-//        result.put("展示有 accepted answer 的问题", String.valueOf(count));
-//        result.put("total", String.valueOf(total));
+        //        result.put("展示有 accepted answer 的问题", String.valueOf(count));
+        //        result.put("total", String.valueOf(total));
         result.put("有 accepted answer 的问题", String.valueOf(per));
         result.put("没有 accepted answer 的问题", String.valueOf(1-per));
         return result;

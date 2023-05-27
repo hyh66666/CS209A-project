@@ -6,27 +6,27 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Answer {
-    private Integer id;
-    private String isAccepted;
-    private String score;
-    private String lastActivityDate;
-    private String creationDate;
-    private String answerId;
-    private String questionId;
-    private String contentLicense;
-    private String userId;
+  private Integer id;
+  private String isAccepted;
+  private String score;
+  private String lastActivityDate;
+  private String creationDate;
+  private String answerId;
+  private String questionId;
+  private String contentLicense;
+  private String userId;
 
 
     public Answer(String isAccepted, String score, String lastActivityDate, String creationDate, String answerId,
                   String questionId, String contentLicense, String userId) {
-        this.isAccepted = isAccepted;
-        this.score = score;
-        this.lastActivityDate = lastActivityDate;
-        this.creationDate = creationDate;
-        this.answerId = answerId;
-        this.questionId = questionId;
-        this.contentLicense = contentLicense;
-        this.userId = userId;
+      this.isAccepted = isAccepted;
+      this.score = score;
+      this.lastActivityDate = lastActivityDate;
+      this.creationDate = creationDate;
+      this.answerId = answerId;
+      this.questionId = questionId;
+      this.contentLicense = contentLicense;
+      this.userId = userId;
     }
 
     public Integer getId() {
